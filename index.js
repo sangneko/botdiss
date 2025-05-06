@@ -1,3 +1,4 @@
+// index.js
 const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
@@ -5,24 +6,31 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Tạo client Discord
+// Tạo bot Discord
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
 });
 
-// Khi bot online
+// Khi bot đã online
 client.once('ready', () => {
-    console.log(`✅ Bot đã online: ${client.user.tag}`);
+    console.log(`🤖 Bot đã online với tên: ${client.user.tag}`);
 });
 
-// Endpoint HTTP đơn giản
+// Simple reply test (có thể bỏ nếu chỉ cần online)
+client.on('messageCreate', (message) => {
+    if (message.content === 'ping') {
+        message.reply('pong 🏓');
+    }
+});
+
+// Endpoint để giữ cho Render không ngủ
 app.get("/", (req, res) => {
-    res.send("Bot is alive!");
+    res.send("Bot is alive! ✅");
 });
 
 // Khởi động server Express
 app.listen(PORT, () => {
-    console.log(`🌐 Keep-alive server chạy tại cổng ${PORT}`);
+    console.log(`🌐 Keep-alive server chạy tại http://localhost:${PORT}`);
 });
 
 // Đăng nhập bot
