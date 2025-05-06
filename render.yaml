@@ -2,10 +2,7 @@ services:
   - type: web
     name: discord-bot
     env: node
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    instances: 1
     plan: free
-    branch: main
-    buildCommand: npm install
-    startCommand: npm start
-    envVars:
-      - key: TOKEN
-        sync: false
